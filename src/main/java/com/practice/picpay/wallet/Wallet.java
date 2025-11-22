@@ -7,8 +7,7 @@ import java.math.BigDecimal;
 
 @Table("WALLETS")
 public record Wallet (
-        @Id
-        Long id,
+        @Id Long id,
         String fullName,
         Long cpf,
         String email,
