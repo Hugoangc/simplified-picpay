@@ -1,13 +1,18 @@
-package com.practice.simplified_picpay.notification;
+package com.practice.picpay.notification;
 
 
-import com.practice.simplified_picpay.transaction.Transaction;
+import com.practice.picpay.authorization.AuthorizerService;
+import com.practice.picpay.transaction.Transaction;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
 @Service
 public class NotificationConsumer {
+    private static final Logger log = LoggerFactory.getLogger(NotificationConsumer.class);
+
     private RestClient restClient;
 
     public NotificationConsumer(RestClient.Builder builder) {
@@ -20,11 +25,14 @@ public class NotificationConsumer {
     // Idealmente seria melhor ter um objeto notificação com a transação dentro com dtos na aplicação
     @KafkaListener(topics = "transaction-notification", groupId = "picpay-desafio-backend")
     public void receiveNotification(Transaction transaction) {
+        log.info("Received transaction notification", transaction);
         var response = restClient.get()
                 .retrieve()
                 .toEntity(Notification.class);
 
         if(response.getStatusCode().isError() || !response.getBody().message())
             throw new NotificationException("Error sending notification");
+
+        log.info("Notifcation has been sent {}...", response.getBody());
     }
 }

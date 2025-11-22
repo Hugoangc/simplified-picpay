@@ -1,11 +1,11 @@
-package com.practice.simplified_picpay.transaction;
+package com.practice.picpay.transaction;
 
 
-import com.practice.simplified_picpay.authorization.AuthorizerService;
-import com.practice.simplified_picpay.notification.NotificationService;
-import com.practice.simplified_picpay.wallet.Wallet;
-import com.practice.simplified_picpay.wallet.WalletRepository;
-import com.practice.simplified_picpay.wallet.WalletType;
+import com.practice.picpay.authorization.AuthorizerService;
+import com.practice.picpay.notification.NotificationService;
+import com.practice.picpay.wallet.Wallet;
+import com.practice.picpay.wallet.WalletRepository;
+import com.practice.picpay.wallet.WalletType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,8 +35,10 @@ public class TransactionService {
         var newTransaction = transactionRepository.save(transaction);
 
         // debitar na wallet
-        var wallet = walletRepository.findById(transaction.payer()).get();
-        walletRepository.save(wallet.debit(transaction.value()));
+        var walletPayer = walletRepository.findById(transaction.payer()).get();
+        var walletPayee = walletRepository.findById(transaction.payee()).get();
+        walletRepository.save(walletPayer.debit(transaction.value()));
+        walletRepository.save(walletPayee.credit(transaction.value()));
 
 
         // chamar serviços externos

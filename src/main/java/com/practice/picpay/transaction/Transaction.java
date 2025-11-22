@@ -1,4 +1,4 @@
-package com.practice.simplified_picpay.transaction;
+package com.practice.picpay.transaction;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;

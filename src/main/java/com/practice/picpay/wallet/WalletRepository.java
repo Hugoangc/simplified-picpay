@@ -1,4 +1,4 @@
-package com.practice.simplified_picpay.wallet;
+package com.practice.picpay.wallet;
 
 import org.springframework.data.repository.CrudRepository;
 

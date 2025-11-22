@@ -1,6 +1,6 @@
-package com.practice.simplified_picpay.notification;
+package com.practice.picpay.notification;
 
-import com.practice.simplified_picpay.transaction.Transaction;
+import com.practice.picpay.transaction.Transaction;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 

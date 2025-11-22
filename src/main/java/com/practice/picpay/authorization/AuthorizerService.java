@@ -1,13 +1,16 @@
-package com.practice.simplified_picpay.authorization;
+package com.practice.picpay.authorization;
 
 
-import com.practice.simplified_picpay.transaction.Transaction;
+import com.practice.picpay.transaction.Transaction;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
 @Service
 public class AuthorizerService {
 
+    private static final Logger log = LoggerFactory.getLogger(AuthorizerService.class);
     private RestClient restClient;
 
     public AuthorizerService(RestClient.Builder builder) {
@@ -16,6 +19,7 @@ public class AuthorizerService {
                 .build();
     }
     public void authorize(Transaction transaction) {
+        log.info("Authorizing transaction {}", transaction);
         var response = restClient.get()
                 .retrieve()
                 .toEntity(Authorization.class);
@@ -24,6 +28,7 @@ public class AuthorizerService {
             throw new UnauthorizedTransactionException("Unauthorized");
 
         }
+        log.info("Transaction {} has been authorized", transaction);
 
     }
 }

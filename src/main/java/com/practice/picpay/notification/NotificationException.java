@@ -1,4 +1,4 @@
-package com.practice.simplified_picpay.notification;
+package com.practice.picpay.notification;
 
 public class NotificationException extends RuntimeException {
 

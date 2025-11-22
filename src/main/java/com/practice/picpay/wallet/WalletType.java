@@ -1,4 +1,4 @@
-package com.practice.simplified_picpay.wallet;
+package com.practice.picpay.wallet;
 
 public enum WalletType {
     COMMON(1), MERCHANT(2);

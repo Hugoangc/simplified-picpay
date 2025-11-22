@@ -1,4 +1,4 @@
-package com.practice.simplified_picpay.authorization;
+package com.practice.picpay.authorization;
 
 public class UnauthorizedTransactionException extends RuntimeException {
 
