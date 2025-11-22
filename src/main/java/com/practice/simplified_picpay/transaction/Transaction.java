@@ -9,8 +9,7 @@ import java.time.LocalDateTime;
 
 @Table("TRANSACTIONS")
 public record Transaction(
-        @Id
-        Long payer,
+        @Id Long payer,
         Long payee,
         BigDecimal value,
         @CreatedDate LocalDateTime createdAt) {
