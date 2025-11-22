@@ -1,4 +1,4 @@
-package com.practice.simplified_picpay.exceptions;
+package com.practice.simplified_picpay.transaction;
 
 public class InvalidTransactionException
 extends RuntimeException{

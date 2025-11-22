@@ -1,11 +1,11 @@
 package com.practice.simplified_picpay.transaction;
 
 
-import com.practice.simplified_picpay.exceptions.InvalidTransactionException;
+import com.practice.simplified_picpay.authorization.AuthorizerService;
+import com.practice.simplified_picpay.notification.NotificationService;
 import com.practice.simplified_picpay.wallet.Wallet;
 import com.practice.simplified_picpay.wallet.WalletRepository;
 import com.practice.simplified_picpay.wallet.WalletType;
-import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,10 +14,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class TransactionService {
     private final TransactionRepository transactionRepository;
     private final WalletRepository walletRepository;
+    private final AuthorizerService authorizerService;
+    private final NotificationService notificationService;
 
-    public TransactionService(TransactionRepository transactionRepository, WalletRepository walletRepository) {
+    public TransactionService(TransactionRepository transactionRepository, WalletRepository walletRepository, AuthorizerService authorizerService, NotificationService notificationService) {
         this.transactionRepository = transactionRepository;
         this.walletRepository = walletRepository;
+        this.authorizerService = authorizerService;
+        this.notificationService = notificationService;
     }
 
     @Transactional
@@ -34,12 +38,19 @@ public class TransactionService {
 
 
         // chamar serviços externos
+        // authorize transaction
+
+        authorizerService.authorize(transaction);
+
+        //notificação
+        notificationService.notify(transaction);
 
         return newTransaction;
     }
 
 
     /*
+    rules:
     the payer has a common wallet
     the payer has enough balance
     the payer is not the payee
